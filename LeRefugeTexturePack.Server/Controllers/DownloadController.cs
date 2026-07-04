@@ -12,6 +12,7 @@ namespace LeRefugeTexturePack.Server.Controllers
         private readonly IDownloadService _downloadService = downloadService;
 
         [HttpGet("zip")]
+        [Produces("application/zip")]
         [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
 

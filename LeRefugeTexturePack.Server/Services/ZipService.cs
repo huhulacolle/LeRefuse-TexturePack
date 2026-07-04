@@ -19,14 +19,6 @@ namespace LeRefugeTexturePack.Server.Services
             if (!Directory.Exists(_unzipPath))
                 throw new Exception($"Le dossier {_unzipPath} n'existe pas");
 
-            var fixrapideflemmedefaireuntrucpropre = Path.Combine(Directory.GetCurrentDirectory(), "TexturePack", "Zip");
-
-            if (!Directory.Exists(fixrapideflemmedefaireuntrucpropre))
-            {
-                _logger.LogInformation("création du dossier {fixrapideflemmedefaireuntrucpropre}", fixrapideflemmedefaireuntrucpropre);
-                Directory.CreateDirectory(fixrapideflemmedefaireuntrucpropre);
-            }
-
             if (File.Exists(_zipPath))
                 File.Delete(_zipPath);
 
