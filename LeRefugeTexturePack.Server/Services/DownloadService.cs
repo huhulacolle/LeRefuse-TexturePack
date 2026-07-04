@@ -4,8 +4,8 @@ namespace LeRefugeTexturePack.Server.Services
 {
     public class DownloadService : IDownloadService
     {
-        private readonly string _zipPath = Path.Combine(Directory.GetCurrentDirectory(), "TexturePack", "Zip", "resetpack.zip");
-        private readonly string _unzipPath = Path.Combine(Directory.GetCurrentDirectory(), "TexturePack", "Unzip", "resetpack");
+        private readonly string _zipPath = Path.Combine(AppContext.BaseDirectory, "TexturePack", "Zip", "resetpack.zip");
+        private readonly string _unzipPath = Path.Combine(AppContext.BaseDirectory, "TexturePack", "Unzip", "resetpack");
 
 
         public string DownloadTextureZip()
