@@ -19,7 +19,6 @@ RUN apt-get -y install nodejs
 
 FROM with-node AS build
 RUN --mount=type=secret,id=SIXLABORS_LICENSE_KEY \
-    cat /run/secrets/SIXLABORS_LICENSE_KEY \
     export SIXLABORS_LICENSE_KEY=$(cat /run/secrets/SIXLABORS_LICENSE_KEY)
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
@@ -29,12 +28,14 @@ RUN rm -rf LeRefugeTexturePack.Server/TexturePack
 RUN dotnet restore "./LeRefugeTexturePack.Server/LeRefugeTexturePack.Server.csproj"
 COPY . .
 WORKDIR "/src/LeRefugeTexturePack.Server"
-RUN dotnet build "./LeRefugeTexturePack.Server.csproj" -c $BUILD_CONFIGURATION -o /app/build -p:SixLaborsLicenseKey="$env:SIXLABORS_LICENSE_KEY"
+RUN --mount=type=secret,id=SIXLABORS_LICENSE_KEY \
+    dotnet build "./LeRefugeTexturePack.Server.csproj" -c $BUILD_CONFIGURATION -o /app/build -p:SixLaborsLicenseKey="$(cat /run/secrets/SIXLABORS_LICENSE_KEY)"
 
 # Cette étape permet de publier le projet de service à copier dans la phase finale
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./LeRefugeTexturePack.Server.csproj" -c $BUILD_CONFIGURATION -o /app/publish -p:SixLaborsLicenseKey="$env:SIXLABORS_LICENSE_KEY" /p:UseAppHost=false
+RUN --mount=type=secret,id=SIXLABORS_LICENSE_KEY \
+    dotnet publish "./LeRefugeTexturePack.Server.csproj" -c $BUILD_CONFIGURATION -o /app/publish -p:SixLaborsLicenseKey="$(cat /run/secrets/SIXLABORS_LICENSE_KEY)" /p:UseAppHost=false
 
 # Cette phase est utilisée en production ou lors de l’exécution à partir de VS en mode normal (par défaut quand la configuration de débogage n’est pas utilisée)
 FROM base AS final
