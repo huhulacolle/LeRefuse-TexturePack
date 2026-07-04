@@ -19,8 +19,8 @@ RUN apt-get -y install nodejs
 
 FROM with-node AS build
 RUN --mount=type=secret,id=SIXLABORS_LICENSE_KEY \
+    cat /run/secrets/SIXLABORS_LICENSE_KEY \
     export SIXLABORS_LICENSE_KEY=$(cat /run/secrets/SIXLABORS_LICENSE_KEY)
-RUN cat /run/secrets/SIXLABORS_LICENSE_KEY
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["LeRefugeTexturePack.Server/LeRefugeTexturePack.Server.csproj", "LeRefugeTexturePack.Server/"]
