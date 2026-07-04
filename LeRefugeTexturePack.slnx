@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="lerefugetexturepack.client/lerefugetexturepack.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="LeRefugeTexturePack.Server/LeRefugeTexturePack.Server.csproj" />
+</Solution>
