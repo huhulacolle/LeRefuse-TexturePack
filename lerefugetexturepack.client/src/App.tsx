@@ -58,7 +58,6 @@ function App() {
   }
 
   async function getPaints() {
-    setPaints([]);
     const data = await fetch("/api/Painting");
     const result: FileModel[] = await data.json();
     setPaints(result);
