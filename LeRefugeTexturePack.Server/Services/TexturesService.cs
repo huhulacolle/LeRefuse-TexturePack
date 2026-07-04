@@ -9,7 +9,7 @@ namespace LeRefugeTexturePack.Server.Services
     public class TexturesService(ILogger<TexturesService> logger) : ITexturesService
     {
         private readonly ILogger<TexturesService> _logger = logger;
-        private readonly string _unzipPath = Path.Combine(AppContext.BaseDirectory, "TexturePack", "Unzip", "resetpack");
+        private readonly string _unzipPath = Path.Combine(Directory.GetCurrentDirectory(), "TexturePack", "Unzip", "resetpack");
 
         public List<FileModel> GetAllPainting()
         {

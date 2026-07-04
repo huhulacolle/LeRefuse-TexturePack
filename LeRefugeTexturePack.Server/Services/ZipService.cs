@@ -8,8 +8,8 @@ namespace LeRefugeTexturePack.Server.Services
         private readonly ILogger<ZipService> _logger = logger;
 
 
-        private readonly string _zipPath = Path.Combine(AppContext.BaseDirectory, "TexturePack", "Zip", "resetpack.zip");
-        private readonly string _unzipPath = Path.Combine(AppContext.BaseDirectory, "TexturePack", "Unzip", "resetpack");
+        private readonly string _zipPath = Path.Combine(Directory.GetCurrentDirectory(), "TexturePack", "Zip", "resetpack.zip");
+        private readonly string _unzipPath = Path.Combine(Directory.GetCurrentDirectory(), "TexturePack", "Unzip", "resetpack");
 
         public async Task ZipTexturePack()
         {
@@ -19,7 +19,7 @@ namespace LeRefugeTexturePack.Server.Services
             if (!Directory.Exists(_unzipPath))
                 throw new Exception($"Le dossier {_unzipPath} n'existe pas");
 
-            var fixrapideflemmedefaireuntrucpropre = Path.Combine(AppContext.BaseDirectory, "TexturePack", "Zip");
+            var fixrapideflemmedefaireuntrucpropre = Path.Combine(Directory.GetCurrentDirectory(), "TexturePack", "Zip");
 
             if (!Directory.Exists(fixrapideflemmedefaireuntrucpropre))
             {
