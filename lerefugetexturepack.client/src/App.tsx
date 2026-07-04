@@ -1,58 +1,68 @@
-import { useEffect, useState } from 'react';
-import './App.css';
+import { useEffect, useState } from "react";
 
-interface Forecast {
-    date: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
+interface FileModel {
+  fileName: string;
+  url: string;
 }
 
 function App() {
-    const [forecasts, setForecasts] = useState<Forecast[]>();
+  const [paints, setPaints] = useState<FileModel[]>([]);
 
-    useEffect(() => {
-        populateWeatherData();
-    }, []);
+  useEffect(() => {
+    getPaints();
+  }, []);
 
-    const contents = forecasts === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-        : <table className="table table-striped" aria-labelledby="tableLabel">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forecasts.map(forecast =>
-                    <tr key={forecast.date}>
-                        <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
-                        <td>{forecast.summary}</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>;
-
-    return (
-        <div>
-            <h1 id="tableLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            {contents}
+  return (
+    <div>
+      <h1>Paints</h1>
+      {paints.length === 0 ? (
+        <p>Chargement</p>
+      ) : (
+        <div style={{ display: "grid", gap: "1rem" }}>
+          {paints.map((paint) => (
+            <div key={paint.fileName}>
+              <h3>{paint.fileName}</h3>
+              <img src={paint.url} />
+              <div>clique sur changer l'image</div>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => upload(e, paint.fileName)}
+              />
+            </div>
+          ))}
         </div>
-    );
+      )}
+    </div>
+  );
 
-    async function populateWeatherData() {
-        const response = await fetch('api/weatherforecast');
-        if (response.ok) {
-            const data = await response.json();
-            setForecasts(data);
-        }
-    }
+  async function upload(
+    e: React.ChangeEvent<HTMLInputElement>,
+    fileName: string,
+  ) {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file); // ⚠️ doit matcher "file" côté .NET
+
+    await fetch(`/api/Painting/${fileName}`, {
+      method: "POST",
+      body: formData,
+    });
+
+    alert(`image ${fileName} uploadé`)
+
+    await getPaints();
+  }
+
+  async function getPaints() {
+    setPaints([]);
+    const data = await fetch("/api/Painting");
+    const result: FileModel[] = await data.json();
+    setPaints(result);
+  }
 }
 
 export default App;
