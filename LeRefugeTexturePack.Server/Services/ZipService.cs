@@ -23,7 +23,7 @@ namespace LeRefugeTexturePack.Server.Services
 
             if (!Directory.Exists(fixrapideflemmedefaireuntrucpropre))
             {
-                Directory.CreateDirectory("fixrapideflemmedefaireuntrucpropre");
+                Directory.CreateDirectory(fixrapideflemmedefaireuntrucpropre);
             }
 
             if (File.Exists(_zipPath))
