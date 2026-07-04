@@ -53,6 +53,7 @@ namespace LeRefugeTexturePack.Server.Services
 
         public async Task<Result> UploadPaint(IFormFile file, string namePainting)
         {
+            _logger.LogInformation("Debug : {file}", file.ContentType);
             if (!file.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
             {
                 return Result.Fail(">:(");
