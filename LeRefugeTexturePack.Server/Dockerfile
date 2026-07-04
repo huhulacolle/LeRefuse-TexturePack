@@ -26,12 +26,12 @@ RUN rm -rf LeRefugeTexturePack.Server/TexturePack
 RUN dotnet restore "./LeRefugeTexturePack.Server/LeRefugeTexturePack.Server.csproj"
 COPY . .
 WORKDIR "/src/LeRefugeTexturePack.Server"
-RUN dotnet build "./LeRefugeTexturePack.Server.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./LeRefugeTexturePack.Server.csproj" -c $BUILD_CONFIGURATION -o /app/build -p:SixLaborsLicenseKey="$env:SIXLABORS_LICENSE_KEY"
 
 # Cette étape permet de publier le projet de service à copier dans la phase finale
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./LeRefugeTexturePack.Server.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./LeRefugeTexturePack.Server.csproj" -c $BUILD_CONFIGURATION -o /app/publish -p:SixLaborsLicenseKey="$env:SIXLABORS_LICENSE_KEY" /p:UseAppHost=false
 
 # Cette phase est utilisée en production ou lors de l’exécution à partir de VS en mode normal (par défaut quand la configuration de débogage n’est pas utilisée)
 FROM base AS final

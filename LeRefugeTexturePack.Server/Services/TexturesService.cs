@@ -127,8 +127,8 @@ namespace LeRefugeTexturePack.Server.Services
 
             await FFMpegArguments
                 .FromFileInput(pathTemp)
-                .OutputToFile(path, true, options => options
-                    .WithAudioCodec("libvorbis"))
+                .OutputToFile(path, true, options => 
+                    options.WithAudioCodec("libvorbis"))
                 .ProcessAsynchronously();
 
             _logger.LogInformation("Enregistrement effectué avec succès");
