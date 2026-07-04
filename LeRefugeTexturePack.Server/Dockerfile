@@ -39,4 +39,7 @@ RUN dotnet publish "./LeRefugeTexturePack.Server.csproj" -c $BUILD_CONFIGURATION
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+RUN mkdir -p /app/TexturePack/Zip /app/TexturePack/Unzip && \
+    chown -R $APP_UID:$APP_UID /app/TexturePack && \
+    chmod -R 755 /app/TexturePack
 ENTRYPOINT ["dotnet", "LeRefugeTexturePack.Server.dll"]

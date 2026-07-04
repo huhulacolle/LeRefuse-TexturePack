@@ -24,7 +24,7 @@ namespace LeRefugeTexturePack.Server.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, $"une erreur inconnu est survenu {e.Message}");
+                return StatusCode(500, $"une erreur un peu chelou est survenu {e.Message}");
             }
         }
 
@@ -47,7 +47,7 @@ namespace LeRefugeTexturePack.Server.Controllers
             catch (Exception e)
             {
                 _logger.LogError("erreur UploadSound() : {e}", e.Message);
-                return StatusCode(500, $"Erreur inconnue");
+                return StatusCode(500, $"Erreur chelou");
             }
         }
     }

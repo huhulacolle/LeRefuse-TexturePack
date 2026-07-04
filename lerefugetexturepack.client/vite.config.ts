@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 import plugin from '@vitejs/plugin-react';
 
 
-const target = "http://localhost:5048";
+const target = "https://lerefugetexturepack.hugolacolle.dev";
 
 // https://vitejs.dev/config/
 export default defineConfig({
