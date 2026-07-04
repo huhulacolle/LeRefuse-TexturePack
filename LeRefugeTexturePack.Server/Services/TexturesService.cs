@@ -21,10 +21,21 @@ namespace LeRefugeTexturePack.Server.Services
             var paintingsPath = Path.Combine(_unzipPath, "assets", "minecraft", "textures", "painting");
             var paintings = Directory
                 .GetFiles(paintingsPath)
-                .Select(p => new FileModel
+                .Select(p =>
                 {
-                    FileName = Path.GetFileName(p),
-                    Url = $"/api/Download/image/{Path.GetFileName(p)}?{DateTime.Now.Ticks}"
+                    var info = Image.Identify(p);
+                    double ratio = 0;
+                    if (info != null && info.Height != 0)
+                    {
+                        ratio = Math.Round((double)info.Width / info.Height, 3);
+                    }
+
+                    return new FileModel
+                    {
+                        FileName = Path.GetFileName(p),
+                        Url = $"/api/Download/image/{Path.GetFileName(p)}?{DateTime.Now.Ticks}",
+                        Ratio = ratio
+                    };
                 })
                 .ToList();
 
