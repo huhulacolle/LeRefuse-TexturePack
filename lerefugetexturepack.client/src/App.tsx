@@ -45,7 +45,7 @@ function App() {
     if (!file) return;
 
     const formData = new FormData();
-    formData.append("file", file); // ⚠️ doit matcher "file" côté .NET
+    formData.append("file", file);
 
     await fetch(`/api/Painting/${fileName}`, {
       method: "POST",
