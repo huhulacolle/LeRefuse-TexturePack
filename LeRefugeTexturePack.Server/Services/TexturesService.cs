@@ -24,17 +24,23 @@ namespace LeRefugeTexturePack.Server.Services
                 .Select(p =>
                 {
                     var info = Image.Identify(p);
-                    double ratio = 0;
-                    if (info != null && info.Height != 0)
+                    string ratioStr = string.Empty;
+
+                    if (info != null && info.Width > 0 && info.Height > 0)
                     {
-                        ratio = Math.Round((double)info.Width / info.Height, 3);
+                        int w = info.Width;
+                        int h = info.Height;
+                        int g = Gcd(w, h);
+                        w /= g;
+                        h /= g;
+                        ratioStr = $"{w}:{h}";
                     }
 
                     return new FileModel
                     {
                         FileName = Path.GetFileName(p),
                         Url = $"/api/Download/image/{Path.GetFileName(p)}?{DateTime.Now.Ticks}",
-                        Ratio = ratio
+                        Ratio = ratioStr
                     };
                 })
                 .ToList();
@@ -148,6 +154,21 @@ namespace LeRefugeTexturePack.Server.Services
             File.Delete(pathTemp);
             
             return Result.Ok();
+        }
+
+        private static int Gcd(int a, int b)
+        {
+            a = Math.Abs(a);
+            b = Math.Abs(b);
+            if (a == 0) return b;
+            if (b == 0) return a;
+            while (b != 0)
+            {
+                int t = a % b;
+                a = b;
+                b = t;
+            }
+            return a;
         }
     }
 }
