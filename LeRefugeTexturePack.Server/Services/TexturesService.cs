@@ -44,7 +44,7 @@ namespace LeRefugeTexturePack.Server.Services
                 .Select(p => new FileModel
                 {
                     FileName = Path.GetFileName(p),
-                    Url = $"/api/Download/image/{Path.GetFileName(p)}?{DateTime.Now.Ticks}"
+                    Url = $"/api/Download/sound/{Path.GetFileName(p)}?{DateTime.Now.Ticks}"
                 })
                 .ToList();
 
